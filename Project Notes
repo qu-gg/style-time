@@ -1,0 +1,39 @@
+Network choices:
+    VGG - standard network used in style tranfers, expensive and costly due to the size of the network
+        Produces best subjective quality results, but is costly to run
+        Might be too costly for real time applications
+    SqueezeNet - CNN that uses "fire nodes" to compress information between layers and accelerate computation
+        Lower quality of transfer, but promising for real-time applications
+    CNN - regular CNN structure, testing small to large networks
+        Middle of the line, might produce mediocre results (better than Squeeze) for decent computational cost
+
+    For VGG:
+        - Check whether 4 of each layer size is actually needed for image fidelity or whether using one of each produces
+        good results. One of each would provide a siginificant computation reduction, scaling the network by 1/4th
+        - Network layer changes
+            224x224x3
+            224x224x64
+            112x112x128
+            56x56x256
+            28x28x512
+            14x14x512
+            7x7x512
+
+Optimizer choices:
+    - From research, appears adaptive methods result in better quality as compared to gradient optimizers
+    - Using a high learning rate (i.e. lr=10) provides fast learning and decent results, but lacks the fine quality
+    of high iterations with low lr
+    - Experiment using high or mid-range lr's
+    - Adam appears to be a good choice, but AdaDelta and RMSProp seem decent as well
+        Check which has the best computational value
+
+Loss function:
+    - Both the content and style provide a part to the total loss used to shift the image in the right direction
+    - For the content reconstruction, the squared-mean loss between the original image's (P) and generated image's (F)
+        feature maps where Fij(l) represents the ith filter at position j of the lth layer
+        + Layer l at position (x,y) at the ith filter of n filters
+        + The total style loss is the sum of all layer losses times their weights
+    - For the content reconstruction, the mean-squared distance is taken betweeen the entries of a Gram matrix from the
+        original image (A) and the generated (G) style representations
+    - The five layers that are used for the loss calculations are the first of each size in the original VGG network
+        Test whether multiple layers of each size are needed or not
