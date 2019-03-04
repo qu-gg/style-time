@@ -12,12 +12,13 @@ Network choices:
         good results. One of each would provide a siginificant computation reduction, scaling the network by 1/4th
         - Network layer changes
             224x224x3
-            224x224x64
-            112x112x128
-            56x56x256
-            28x28x512
-            14x14x512
-            7x7x512
+            224x224x64 -> relu -> maxpooling2d
+            112x112x128 -> relu -> maxpooling2d
+            56x56x256 -> relu -> maxpooling2d
+            28x28x512 -> relu -> maxpooling2d
+            14x14x512 -> relu -> maxpooling2d
+            7x7x512 -> softmax
+            fully-connected layers here?
 
 Optimizer choices:
     - From research, appears adaptive methods result in better quality as compared to gradient optimizers
@@ -37,3 +38,13 @@ Loss function:
         original image (A) and the generated (G) style representations
     - The five layers that are used for the loss calculations are the first of each size in the original VGG network
         Test whether multiple layers of each size are needed or not
+
+Computer Vision process:
+    - Using OpenCV in order to grab the pixel image per frame seems to be a promising way to go, as it has been shown to
+    be able to operate at high frame per second speeds
+    - The FPS to hit is 30/s, meaning that per frame, there is 33ms to process and render the image back into the frame
+    - Another factor to consider is how longer the model should run for results per frame
+        There is a trade-off between quality and response time that needs to happen here
+        Two metrics that can be used are a flat number of passes through the network or when the network reaches a
+        static loss value
+        Choosing one depends on the speed of the network
