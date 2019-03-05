@@ -34,7 +34,7 @@ Loss function:
         feature maps where Fij(l) represents the ith filter at position j of the lth layer
         + Layer l at position (x,y) at the ith filter of n filters
         + The total style loss is the sum of all layer losses times their weights
-    - For the content reconstruction, the mean-squared distance is taken betweeen the entries of a Gram matrix from the
+    - For the content reconstruction, the mean-squared distance is taken between the entries of a Gram matrix from the
         original image (A) and the generated (G) style representations
     - The five layers that are used for the loss calculations are the first of each size in the original VGG network
         Test whether multiple layers of each size are needed or not

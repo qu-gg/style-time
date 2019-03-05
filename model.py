@@ -7,6 +7,7 @@ VGG-based network for use in real-time neural style transfer
 import torch
 import torch.nn as nn
 import torch.nn.functional as f
+import torch.optim as optim
 import imageio as im
 import numpy as np
 import utils
@@ -27,6 +28,28 @@ def conv_layer(in_channels, out_channels, kernel):
         nn.MaxPool2d(kernel_size=2, stride=2, padding=0)
     )
     return layer
+
+
+def create_gram_matrix(matrix):
+    return
+
+
+def style_loss(og, gen):
+    """
+    Handles calculating the combined loss for the style portion of the network's total loss by
+    creating two Gram matrices for both the original image and generated image
+    :return: loss of one layer for style reconstruction
+    """
+    return
+
+
+def content_loss():
+    """
+    Handles calculating the combined loss for the content represntation of the network's total loss
+    by creating response matrices for both the original and generate images
+    :return:
+    """
+    return
 
 
 class VGG(nn.Module):
@@ -54,8 +77,21 @@ class VGG(nn.Module):
         return x
 
 
-image = utils.get_style(utils.DOCTOR)
-image = torch.Tensor([image])
 net = VGG()
-output = net(image)
-print(output)
+optimizer = optim.Adam(net.parameters(), lr=10, betas=[0.9, 0.99])
+
+
+def main():
+    style_list = utils.get_styles()
+    print("Available styles: {}".format(style_list))
+    num = int(input("Enter index of desired style: "))
+    name = style_list[num]
+
+    image = utils.get_style(name)
+    image = torch.Tensor([image])
+
+    print(net(image))
+
+
+if __name__ == '__main__':
+    main()
