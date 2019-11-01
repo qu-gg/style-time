@@ -11,6 +11,7 @@ import os
 
 def get_style(name):
     image = imageio.imread("images/styles/" + name)
+    #TODO - move axis, not reshape for spatial consistency
     image = np.reshape(image, [3, 224, 224])
     return image
 
